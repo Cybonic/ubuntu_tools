@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# NFS Server Setup
+sudo apt-get update
+sudo apt-get install -y nfs-kernel-server
+
+# Export a directory to share
+echo "/path/to/share client_ip(rw,sync,no_subtree_check)" | sudo tee -a /etc/exports
+
+# Apply changes
+sudo exportfs -a
+sudo systemctl restart nfs-server
+
+
+
+# ===================================================
+
+# NFS Client Setup
+sudo apt-get install -y nfs-common
+
+# Create a directory for the mount point
+mkdir ~/nfs_mount
+
+# Mount the NFS share
+sudo mount -t nfs server_ip:/path/to/share ~/nfs_mount
+
+# Access the files
+ls ~/nfs_mount
+
