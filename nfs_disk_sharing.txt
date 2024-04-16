@@ -4,7 +4,8 @@
 sudo apt-get update
 sudo apt-get install -y nfs-kernel-server
 
-# Export a directory to share
+# This changes have to be made in /etc/exports
+# Export a directory to share 
 echo "/path/to/share client_ip(rw,sync,no_subtree_check)" | sudo tee -a /etc/exports
 
 # Apply changes
@@ -21,9 +22,23 @@ sudo apt-get install -y nfs-common
 # Create a directory for the mount point
 mkdir ~/nfs_mount
 
-# Mount the NFS share
+# =======================================================
+# Mount the NFS share from the command terminal
 sudo mount -t nfs server_ip:/path/to/share ~/nfs_mount
 
+# =======================================================
+# Mount remote disk at boot
+# Edit following file
+sudo nano /etc/fstab
+
+# ip:/path/to/folder/on/remote /path/to/local/folder
+
+10.231.216.239:/mnt/external/shared /mnt/shared nfs defaults 0 0
+
+# Mount disk 
+sudo mount -a
+
+nano /etc 
 # Access the files
 ls ~/nfs_mount
 
